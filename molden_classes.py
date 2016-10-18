@@ -53,13 +53,14 @@ class _molden(object):
     def info(self):
         print self.num_of_outputs,"MOLDEN outputs found"
 
-    def print_molden(self,num=0):
-        if (num == 0):
-            for output in self.molden_outputs:
-                output.molden_format()
-
-        else:
+    def output(self,num=0):
+        if (num > 0):
             self.molden_outputs[num-1].molden_format()
+        else:
+            return len(self.molden_outputs)
+
+    def final(self):
+        self.molden_outputs[-1].molden_format()
 
 def _parse_molden(content):
    
@@ -86,6 +87,14 @@ def _parse_molden(content):
     for i in xrange(len(start_of_molden)):
         print start_of_molden[i], end_of_molden[i]
     '''
+
+    if len(start_of_molden) == len(end_of_molden):
+        start_of_molden.reverse()
+        end_of_molden.reverse()
+    else:
+        print "The output might be incomplete"
+        import sys
+        sys.exit(0)
 
     while (start_of_molden):
         

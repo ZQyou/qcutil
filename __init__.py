@@ -36,8 +36,8 @@ def read(filename,silent=False):
 
         N_jobs = len(seperator)
 
-        # Does the file contain multiple jobs? 
-        if N_jobs>1:
+        # Always process the file as it containing multiple jobs
+        if N_jobs>0:
             if not silent:
                 print "Batch-Outputfile detected."
             infile = open(filename,"r")
@@ -57,10 +57,10 @@ def read(filename,silent=False):
             return re_file
     
         # No, it's a single job file    
-        else:
-            if not silent:
-                print "Outputfile detected."
-            return _outputfile(filename,silent)
+        #else:
+        #    if not silent:
+        #        print "Outputfile detected."
+        #    return _outputfile(filename,silent)
 
 if __name__ == "__main__":
     print "This file is supposed to be loaded as a module, not as main."
