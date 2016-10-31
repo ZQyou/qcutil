@@ -11,12 +11,12 @@ class _molden_section(object):
         self.list_of_lines.append(line.rstrip())
     '''
 
-    def lines(self):
-        print self.__title
+    def print_lines(self):
+        self.print_title()
         for line in self.list_of_lines:
             print line
 
-    def title(self):
+    def print_title(self):
         print self.__title
 
 class _molden_format(object):
@@ -26,6 +26,7 @@ class _molden_format(object):
     def __init__(self,molden_type=''):
         self.__molden_type = molden_type
         self.__molden_sections = []
+        self.__molden_sections.append(_molden_section('[Molden Format]'))
 
     def set_type(self,molden_type):
         self.__molden_type = molden_type
@@ -36,35 +37,33 @@ class _molden_format(object):
     def add_section(self,molden_section):
         self.__molden_sections.append(molden_section)
 
-    def molden_format(self):
-        print "[Molden Format]"
+    def printme(self):
         for sec in self.__molden_sections:
-            sec.lines()
-
+            sec.print_lines()
+       
 
 class _molden(object):
     '''
     Top manager for molden-format outputs
     '''
-    def __init__(self,molden_outputs):
-        self.molden_outputs = molden_outputs
-        self.num_of_outputs = len(molden_outputs)
+    def __init__(self,molden_formats):
+        self.molden_formats = molden_formats
 
     def info(self):
-        print self.num_of_outputs,"MOLDEN outputs found"
+        print len(self.molden_formats),"MOLDEN outputs found"
 
     def output(self,num=0):
         if (num > 0):
-            self.molden_outputs[num-1].molden_format()
+            return self.molden_formats[num-1]
         else:
-            return len(self.molden_outputs)
+            return len(self.molden_formats)
 
     def final(self):
-        self.molden_outputs[-1].molden_format()
+        return self.molden_formats[-1]
 
 def _parse_molden(content):
    
-    molden_outputs = [];
+    molden_formats = [];
     start_of_molden = [];
     end_of_molden = [];
     for i, line in enumerate(content):
@@ -127,7 +126,7 @@ def _parse_molden(content):
             molden_section = _molden_section(title,molden_lines)
             molden_format.add_section(molden_section)
 
-        molden_outputs.append(molden_format)
+        molden_formats.append(molden_format)
 
-    return _molden(molden_outputs)
+    return _molden(molden_formats)
    
