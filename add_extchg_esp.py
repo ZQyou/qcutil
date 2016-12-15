@@ -67,9 +67,9 @@ while num < len(pltesp):
     crd = x[0:3]
     esp = x[3]
     for j in xrange(0,num_extchg):
-        extchg_crd = extchg[j,0:3]
+        extchg_crd = extchg[j,0:3] / BOHR_IN_A
         d = np.subtract(crd,extchg_crd)
-        dist = np.linalg.norm(d) / BOHR_IN_A 
+        dist = np.linalg.norm(d)
         esp += extchg[j,3]/dist
 
     print " %16.8E %16.8E %16.8E %16.8E" % (crd[0], crd[1], crd[2], esp)
